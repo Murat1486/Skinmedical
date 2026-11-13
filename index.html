@@ -1,3 +1,4 @@
+html
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -113,7 +114,7 @@
 
         header {
             text-align: center;
-            margin-bottom: 35px;
+            margin-bottom: 25px;
         }
 
         h1 {
@@ -133,36 +134,55 @@
             margin-bottom: 20px;
         }
 
-        /* Кнопки выбора пола */
-        .gender-buttons {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 30px;
+        .choice-group {
+            display: none;
             width: 100%;
-            justify-content: center;
+            margin-bottom: 20px;
+            animation: fadeIn 0.5s ease forwards;
         }
 
-        .gender-btn {
+        .choice-group.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .choice-title {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            opacity: 0.8;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .buttons-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .choice-btn {
             background: var(--glass-bg);
             backdrop-filter: blur(15px);
             border: 2px solid var(--glass-border);
-            border-radius: 20px;
-            padding: 15px 25px;
-            font-size: 18px;
+            border-radius: 15px;
+            padding: 12px;
+            font-size: 14px;
             font-weight: 700;
             color: white;
             cursor: pointer;
             transition: all 0.3s ease;
-            flex: 1;
-            max-width: 150px;
             text-align: center;
         }
 
-        .gender-btn:hover, .gender-btn.active {
+        .choice-btn:hover, .choice-btn.active {
             background: #ffffff;
             color: var(--bg-dark);
             border-color: #ffffff;
-            box-shadow: 0 0 20px rgba(255,255,255,0.4);
+            box-shadow: 0 0 15px rgba(255,255,255,0.4);
             transform: translateY(-2px);
         }
 
@@ -172,35 +192,29 @@
             -webkit-backdrop-filter: blur(25px);
             border: 1px solid var(--glass-border);
             border-radius: 28px;
-            padding: 30px 25px;
+            padding: 25px;
             width: 100%;
-            margin-bottom: 35px;
+            margin-bottom: 25px;
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-            transition: transform 0.3s ease, background 0.3s ease;
-        }
-
-        .glass-card:active {
-            transform: scale(0.97);
-            background: rgba(255, 255, 255, 0.12);
         }
 
         .card-title {
-            font-size: 16px;
+            font-size: 14px;
             font-weight: 800;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
             text-transform: uppercase;
             letter-spacing: 1px;
             border-bottom: 1px solid rgba(255,255,255,0.15);
-            padding-bottom: 15px;
+            padding-bottom: 10px;
         }
 
         .step {
             display: flex;
-            gap: 16px;
-            margin-bottom: 20px;
+            gap: 15px;
+            margin-bottom: 15px;
         }
 
         .step:last-child { margin-bottom: 0; }
@@ -208,21 +222,21 @@
         .step-num {
             background: #ffffff;
             color: var(--bg-dark);
-            width: 30px;
-            height: 30px;
+            width: 25px;
+            height: 25px;
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
             font-weight: 900;
-            font-size: 15px;
+            font-size: 13px;
             flex-shrink: 0;
             box-shadow: 0 5px 15px rgba(0,0,0,0.3);
         }
 
         .step-text {
-            font-size: 16px;
-            line-height: 1.5;
+            font-size: 14px;
+            line-height: 1.4;
             font-weight: 500;
             opacity: 0.95;
         }
@@ -232,8 +246,8 @@
             color: var(--bg-dark);
             border: none;
             border-radius: 20px;
-            padding: 24px;
-            font-size: 19px;
+            padding: 20px;
+            font-size: 18px;
             font-weight: 900;
             width: 100%;
             cursor: pointer;
@@ -247,23 +261,10 @@
             gap: 15px;
             position: relative;
             overflow: hidden;
-            margin-top: 20px;
         }
 
-        .cta-button::after {
-            content: '';
-            position: absolute;
-            top: -50%; left: -50%;
-            width: 200%; height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, transparent 60%);
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-
-        .cta-button:hover::after { opacity: 0.3; }
         .cta-button:active {
             transform: scale(0.93);
-            box-shadow: 0 0 20px var(--glow-color), inset 0 10px 20px rgba(0,0,0,0.2);
         }
         .cta-button:disabled {
             background: #64748b;
@@ -327,12 +328,6 @@
             font-size: 20px;
             text-decoration: none;
             color: white;
-            transition: all 0.3s;
-        }
-
-        .social-icon:active {
-            transform: scale(0.85);
-            background: rgba(255,255,255,0.2);
         }
     </style>
 </head>
@@ -349,35 +344,54 @@
 
         <header class="fade-slide delay-2">
             <h1>Оцените нашу работу</h1>
-            <p class="subtitle">Выберите, от чьего лица написать отзыв:</p>
+            <p class="subtitle">Это займет не более 30 секунд</p>
         </header>
 
-        <div class="gender-buttons fade-slide delay-2">
-            <button class="gender-btn" onclick="selectGender('male', this)">👨‍⚕️ Я парень</button>
-            <button class="gender-btn" onclick="selectGender('female', this)">👩‍⚕️ Я девушка</button>
+        <!-- Шаг 1: Выбор пола -->
+        <div class="choice-group active" id="genderGroup">
+            <div class="choice-title">Шаг 1. Кто вы?</div>
+            <div class="buttons-grid">
+                <button class="choice-btn" onclick="selectGender('male', this)">👨‍⚕️ Парень</button>
+                <button class="choice-btn" onclick="selectGender('female', this)">👩‍⚕️ Девушка</button>
+            </div>
         </div>
 
+        <!-- Шаг 2: Выбор врача -->
+        <div class="choice-group" id="doctorGroup">
+            <div class="choice-title">Шаг 2. У какого врача были?</div>
+            <div class="buttons-grid">
+                <button class="choice-btn" onclick="selectDoctor('dermatologist', this)">Дерматолог</button>
+                <button class="choice-btn" onclick="selectDoctor('cosmetologist', this)">Косметолог</button>
+                <button class="choice-btn" onclick="selectDoctor('trichologist', this)">Трихолог</button>
+                <button class="choice-btn" onclick="selectDoctor('surgeon', this)">Хирург</button>
+                <button class="choice-btn" onclick="selectDoctor('neurologist', this)">Невролог</button>
+                <button class="choice-btn" onclick="selectDoctor('oncologist', this)">Онколог</button>
+                <button class="choice-btn" onclick="selectDoctor('other', this)">Другой врач</button>
+            </div>
+        </div>
+
+        <!-- Инструкция -->
         <div class="glass-card fade-slide delay-3">
             <div class="card-title">
                 <span>📋</span> Как оставить отзыв
             </div>
             <div class="step">
                 <div class="step-num">1</div>
-                <div class="step-text">Выберите пол выше, затем нажмите кнопку ниже.</div>
+                <div class="step-text">Выберите пол и врача выше.</div>
             </div>
             <div class="step">
                 <div class="step-num">2</div>
-                <div class="step-text">Текст скопируется автоматически, откроется 2ГИС.</div>
+                <div class="step-text">Нажмите кнопку ниже, чтобы скопировать текст.</div>
             </div>
             <div class="step">
                 <div class="step-num">3</div>
-                <div class="step-text">Нажмите «Написать отзыв» и вставьте текст.</div>
+                <div class="step-text">Вставьте текст в отзыв в 2ГИС.</div>
             </div>
         </div>
 
         <button id="actionBtn" class="cta-button fade-slide delay-4" onclick="copyAndGo()" disabled>
             <div id="btnSpinner" class="spinner"></div>
-            <span id="btnText">Сначала выберите пол</span>
+            <span id="btnText">Выберите пол и врача</span>
         </button>
     </main>
 
@@ -389,79 +403,95 @@
 
     <script>
         let selectedGender = null;
+        let selectedDoctor = null;
 
-        // --- ЖИВЫЕ ОТЗЫВЫ ДЛЯ ПАРНЕЙ ---
-        const maleOpenings = [
-            "Записался на чистку, кожа проблемная", "Ходил на лазер, думал будет жесть", "Пришел к дерматологу с сыпью, замучился", "Сделал пилинг спины, после тренировок вечно высыпало", "Прошел иглоукалывание, шея болела",
-            "Сделал биоревитализацию, кожа была как пергамент", "Привел маму к косметологу, ей 60", "Удалял папиллому на шее", "Сходил к трихологу, волосы лезли клочьями", "Пошел на пилинг, хотел убрать пятна",
-            "Пришел на прием к хирургу с родинкой", "Сделал фотоомоложение, морщины бесили", "Сходил на массаж лица, залипал", "Сдал анализы, все быстро", "Сделал карбокситерапию, немного покалывает",
-            "Удалил бородавку на стопе, надоело", "Сделал чистку лица, кожа забита", "Прошел консультацию по пигментации", "Сделал мезотерапию для волос", "Сделал уколы красоты, лицо отдохнуло"
-        ];
-        const maleMiddles = [
-            "врач попался толковый, все объяснил", "оказалось терпимо, как резинкой щелкает", "врач посмотрел, все разложил по полочкам", "а тут забыл про высыпания", "сначала страшно, потом кайфуешь",
-            "врач подобрала уколы, все аккуратно", "думал, будут втюхивать кучу всего", "минута делов, даже не почувствовал", "врач посмотрел на экране, все рассказал", "врач предупредила, что будет шелушиться",
-            "врач осмотрел, все объяснил, успокоил", "морщины мелкие ушли, пигментация побледнела", "врач работает как скульптор", "взяли кровь, даже не заметил", "главное, что эффект есть",
-            "врач нормальный, все сделал аккуратно", "делаю регулярно, кожа всегда чистая", "врач предложила несколько вариантов", "волосы стали гуще, меньше выпадают", "врач подобрала дозу, все объяснила"
-        ];
-        const maleResults = [
-            "кожа после вообще супер, поры чистые", "зажило реально быстро, даже не ожидал", "через неделю почти ничего не осталось", "спина гладкая, кайф", "шея не болит, сплю как убитый",
-            "сейчас лицо напитанное, морщинки разгладились", "мама довольна, ходит теперь", "зажило без следа, рекомендую", "через два месяца волосы перестали сыпаться", "результат того стоит",
-            "удалили лазером, даже не заметил", "кожа сейчас как в рекламе", "после курса лицо подтянулось, отеки ушли", "результаты на почту пришли, все четко", "кожа подтянулась, цвет выровнялся",
-            "зажило быстро, ходить не больно", "косметолог попался хороший", "выбрал лазер, результат радует", "буду продолжать курс", "эффект естественный, не перекачанное"
-        ];
-        const maleConclusions = [
-            "Приду ещё", "Советую всем", "Спасибо большое", "Впечатления отличные", "Всё супер",
-            "Буду ходить", "Процветания вам", "Спасибо за работу", "Приятный сюрприз", "Буду советовать"
-        ];
+        // --- БАЗА ДАННЫХ ---
 
-        // --- ЖИВЫЕ ОТЗЫВЫ ДЛЯ ДЕВУШЕК ---
-        const femaleOpenings = [
-            "Записалась на чистку, кожа проблемная", "Ходила на лазер, думала будет жесть", "Пришла к дерматологу с сыпью, замучилась", "Сделала пилинг спины, после тренировок вечно высыпало", "Прошла иглоукалывание, шея болела",
-            "Сделала биоревитализацию, кожа была как пергамент", "Привела маму к косметологу, ей 60", "Удаляла папиллому на шее", "Сходила к трихологу, волосы лезли клочьями", "Пошла на пилинг, хотела убрать пятна",
-            "Пришла на прием к хирургу с родинкой", "Сделала фотоомоложение, морщины бесили", "Сходила на массаж лица, залипла", "Сдала анализы, все быстро", "Сделала карбокситерапию, немного покалывает",
-            "Удалила бородавку на стопе, надоело", "Сделала чистку лица, кожа забита", "Прошла консультацию по пигментации", "Сделала мезотерапию для волос", "Сделала уколы красоты, лицо отдохнуло"
-        ];
-        const femaleMiddles = [
-            "врач попалась толковая, все объяснила", "оказалось терпимо, как резинкой щелкает", "врач посмотрела, все разложила по полочкам", "а тут забыла про высыпания", "сначала страшно, потом кайфуешь",
-            "врач подобрала уколы, все аккуратно", "думала, будут втюхивать кучу всего", "минута делов, даже не почувствовала", "врач посмотрела на экране, все рассказала", "врач предупредила, что будет шелушиться",
-            "врач осмотрела, все объяснила, успокоила", "морщины мелкие ушли, пигментация побледнела", "врач работает как скульптор", "взяли кровь, даже не заметила", "главное, что эффект есть",
-            "врач нормальная, все сделала аккуратно", "делаю регулярно, кожа всегда чистая", "врач предложила несколько вариантов", "волосы стали гуще, меньше выпадают", "врач подобрала дозу, все объяснила"
-        ];
-        const femaleResults = [
-            "кожа после вообще супер, поры чистые", "зажило реально быстро, даже не ожидала", "через неделю почти ничего не осталось", "спина гладкая, кайф", "шея не болит, сплю как убитая",
-            "сейчас лицо напитанное, морщинки разгладились", "мама довольна, ходит теперь", "зажило без следа, рекомендую", "через два месяца волосы перестали сыпаться", "результат того стоит",
-            "удалили лазером, даже не заметила", "кожа сейчас как в рекламе", "после курса лицо подтянулось, отеки ушли", "результаты на почту пришли, все четко", "кожа подтянулась, цвет выровнялся",
-            "зажило быстро, ходить не больно", "косметолог попалась хорошая", "выбрала лазер, результат радует", "буду продолжать курс", "эффект естественный, не перекачанное"
-        ];
-        const femaleConclusions = [
-            "Приду ещё", "Советую всем", "Спасибо большое", "Впечатления отличные", "Всё супер",
-            "Буду ходить", "Процветания вам", "Спасибо за работу", "Приятный сюрприз", "Буду советовать"
-        ];
+        // 1. Мужской род
+        const maleData = {
+            openings: ["Записался", "Пришел", "Ходил", "Был", "Обратился"],
+            closings: ["Спасибо!", "Рекомендую.", "Буду ходить.", "Все супер.", "Очень доволен."]
+        };
 
-        const targetUrl = "https://2gis.ru/surgut/firm/70000001075020592/tab/reviews";
+        // 2. Женский род
+        const femaleData = {
+            openings: ["Записалась", "Пришла", "Ходила", "Была", "Обратилась"],
+            closings: ["Спасибо!", "Рекомендую.", "Буду ходить.", "Все супер.", "Очень довольна."]
+        };
 
+        // 3. Тексты для врачей (универсальные, без рода)
+        const doctorTexts = {
+            dermatologist: [
+                "Врач всё подробно объяснил, разложил по полочкам. Назначил лечение, которое реально помогло. Кожа стала чище.",
+                "Очень внимательный врач. Посмотрел, задал вопросы, выписал мазь. Через неделю почти ничего не осталось.",
+                "Профессиональный подход. Всё объяснил, показал на экране. Лечение помогло, высыпания прошли."
+            ],
+            cosmetologist: [
+                "Косметолог учла все пожелания. Процедура прошла комфортно, без боли. Кожа после — супер, поры чистые.",
+                "Сделала чистку лица, всё прошло отлично. Врач попалась толковая, всё объяснила. Кожа дышит.",
+                "Очень довольна результатом. Врач подобрала уход, всё аккуратно. Лицо выглядит свежим."
+            ],
+            trichologist: [
+                "Врач посмотрел кожу головы на экране, всё рассказал. Выписал витамины. Через два месяца волосы перестали сыпаться.",
+                "Обратилась с выпадением волос. Врач назначил лечение, всё объяснил. Результат есть, волосы крепче.",
+                "Профессиональный трихолог. Провёл диагностику, назначил уход. Волосы стали гуще."
+            ],
+            surgeon: [
+                "Врач осмотрел, всё объяснил, успокоил. Удалил родинку лазером, даже не заметил. Шов аккуратный.",
+                "Быстро и без боли. Хирург всё сделал за пару минут. Зажило без проблем.",
+                "Пришел с родинкой, врач всё объяснил. Удалили быстро, следов не осталось."
+            ],
+            neurologist: [
+                "Иглоукалывание помогло снять напряжение. Врач нашел нужные точки. Шея не болит, сплю лучше.",
+                "Врач профессионал. Прошёл курс иглоукалывания, головные боли прошли. Чувствую себя намного лучше.",
+                "Очень помогло. Врач всё объяснил, нашёл болевые точки. После сеанса легкость."
+            ],
+            oncologist: [
+                "Врач очень внимательный. Осмотрел родинки, всё объяснил. Успокоил, сказал, что всё хорошо.",
+                "Пришел на проверку родинки. Врач всё посмотрел, дал заключение. Ничего лишнего не навязывал.",
+                "Профессиональный онколог. Провёл диагностику, всё рассказал. Доволен подходом."
+            ],
+            other: [
+                "Врач всё подробно объяснил. Процедура прошла хорошо, результатом доволен. Спасибо!",
+                "Отличный специалист. Всё сделал аккуратно, без боли. Рекомендую.",
+                "Очень понравился подход. Врач внимательный, всё рассказал. Результат есть."
+            ]
+        };
+
+        // Функция выбора пола
         function selectGender(gender, btn) {
             selectedGender = gender;
             
-            // Снимаем активный класс со всех кнопок
-            document.querySelectorAll('.gender-btn').forEach(b => b.classList.remove('active'));
-            // Добавляем активный класс на выбранную
+            document.querySelectorAll('#genderGroup .choice-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
 
-            // Активируем кнопку генерации
-            const actionBtn = document.getElementById('actionBtn');
-            actionBtn.disabled = false;
-            document.getElementById('btnText').innerText = "Скопировать отзыв и перейти";
+            document.getElementById('doctorGroup').classList.add('active');
+            checkReady();
+        }
+
+        // Функция выбора врача
+        function selectDoctor(doctor, btn) {
+            selectedDoctor = doctor;
+
+            document.querySelectorAll('#doctorGroup .choice-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            checkReady();
+        }
+
+        // Проверка, всё ли выбрано
+        function checkReady() {
+            if (selectedGender && selectedDoctor) {
+                const actionBtn = document.getElementById('actionBtn');
+                actionBtn.disabled = false;
+                document.getElementById('btnText').innerText = "Скопировать отзыв и перейти";
+            }
         }
 
         function getRandom(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
         function capitalizeFirst(str) { return str.charAt(0).toUpperCase() + str.slice(1); }
 
         function copyAndGo() {
-            if (!selectedGender) {
-                alert("Пожалуйста, сначала выберите пол (Парень или Девушка).");
-                return;
-            }
+            if (!selectedGender || !selectedDoctor) return;
 
             const btn = document.getElementById('actionBtn');
             const spinner = document.getElementById('btnSpinner');
@@ -472,35 +502,15 @@
             spinner.style.display = "inline-block";
             btnText.innerText = "Формирую...";
 
-            let openings, middles, results, conclusions;
+            const genderData = (selectedGender === 'male') ? maleData : femaleData;
+            const docTextArray = doctorTexts[selectedDoctor];
 
-            if (selectedGender === 'male') {
-                openings = maleOpenings;
-                middles = maleMiddles;
-                results = maleResults;
-                conclusions = maleConclusions;
-            } else {
-                openings = femaleOpenings;
-                middles = femaleMiddles;
-                results = femaleResults;
-                conclusions = femaleConclusions;
-            }
+            const opening = getRandom(genderData.openings);
+            const docText = getRandom(docTextArray);
+            const closing = getRandom(genderData.closings);
 
-            let p1 = getRandom(openings);
-            let p2 = getRandom(middles);
-            let p3 = getRandom(results);
-            let p4 = getRandom(conclusions);
-
-            // Случайная расстановка знаков препинания
-            let punct1 = Math.random() > 0.4 ? ". " : ", ";
-            let punct2 = Math.random() > 0.4 ? ". " : ", ";
-            let punct3 = Math.random() > 0.4 ? ". " : ", ";
-
-            if (punct1 === ". ") p2 = capitalizeFirst(p2);
-            if (punct2 === ". ") p3 = capitalizeFirst(p3);
-            if (punct3 === ". ") p4 = capitalizeFirst(p4);
-
-            let fullReview = p1 + punct1 + p2 + punct2 + p3 + punct3 + p4 + ".";
+            let fullReview = `${opening}, ${docText} ${closing}`;
+            fullReview = capitalizeFirst(fullReview);
 
             navigator.clipboard.writeText(fullReview).then(() => {
                 showToast();
