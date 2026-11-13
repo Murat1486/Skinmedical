@@ -2,159 +2,171 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>SkinMedical | Оцените нашу работу</title>
     <style>
-        /* --- БАЗОВЫЕ СТИЛИ (СВЕТЛАЯ ИЗУМРУДНАЯ ТЕМА) --- */
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
-        
+        :root {
+            --deep-green: #064e3b;
+            --neon-green: #a3e635;
+            --bright-green: #22c55e;
+            --glass-bg: rgba(255, 255, 255, 0.15);
+            --glass-border: rgba(255, 255, 255, 0.3);
+            --text-color: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
         body {
-            background-color: #f0fdf4; /* Очень светлый зеленый фон */
-            background-image: radial-gradient(circle at 50% 0%, #dcfce7 0%, #f0fdf4 70%);
-            color: #1a1a1a;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            background: linear-gradient(135deg, var(--deep-green) 0%, var(--bright-green) 50%, var(--neon-green) 100%);
+            background-size: 300% 300%;
+            animation: gradientBG 10s ease infinite;
+            color: var(--text-color);
             min-height: 100vh;
-            padding: 20px;
+            display: flex;
+            flex-direction: column;
             overflow-x: hidden;
         }
 
-        /* --- КОНТЕЙНЕР --- */
-        .main-wrapper {
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 30px 20px;
             width: 100%;
             max-width: 480px;
-            position: relative;
+            margin: 0 auto;
             z-index: 2;
+        }
+
+        .fade-in {
             opacity: 0;
-            transform: translateY(40px) scale(0.95);
-            animation: superSlideUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        @keyframes superSlideUp {
-            to { opacity: 1; transform: translateY(0) scale(1); }
+        .fade-in.show {
+            opacity: 1;
+            transform: translateY(0);
         }
 
-        /* --- ЛОГОТИП --- */
-        .logo-container {
+        header {
             text-align: center;
             margin-bottom: 30px;
-            animation: fadeIn 1s ease 0.3s forwards;
-            opacity: 0;
-        }
-        .logo-container img {
-            max-width: 220px;
-            height: auto;
-            /* Убрал инверсию, чтобы логотип был зеленым, как на картинке */
-            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.05));
-        }
-
-        /* --- КАРТОЧКА --- */
-        .card {
-            background: #ffffff;
-            border: 1px solid #e5e7eb;
-            border-radius: 24px;
-            padding: 40px 30px;
-            box-shadow: 0 20px 40px rgba(22, 163, 74, 0.08), 0 1px 3px rgba(0,0,0,0.05);
-            position: relative;
-            overflow: hidden;
-        }
-
-        /* Декоративная зеленая линия сверху */
-        .card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 5px;
-            background: linear-gradient(90deg, #16a34a, #22c55e);
-            box-shadow: 0 0 20px rgba(34, 197, 94, 0.4);
+            width: 100%;
         }
 
         h1 {
-            font-size: 26px;
+            font-size: 32px;
             font-weight: 800;
-            text-align: center;
-            margin-bottom: 10px;
-            color: #111827;
+            line-height: 1.2;
             letter-spacing: -0.5px;
+            margin-bottom: 10px;
+            text-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            opacity: 0;
+            animation: revealText 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.2s;
+        }
+
+        @keyframes revealText {
+            0% { opacity: 0; filter: blur(5px); transform: scale(0.95); }
+            100% { opacity: 1; filter: blur(0); transform: scale(1); }
         }
 
         .subtitle {
-            font-size: 15px;
-            text-align: center;
-            color: #6b7280;
-            margin-bottom: 35px;
-            line-height: 1.5;
-        }
-
-        /* --- ШАГИ --- */
-        .steps {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            margin-bottom: 40px;
-        }
-
-        .step-item {
-            display: flex;
-            align-items: flex-start;
-            background: #f9fafb;
-            padding: 15px;
-            border-radius: 12px;
-            border: 1px solid #f3f4f6;
-            transition: all 0.3s ease;
+            font-size: 16px;
+            font-weight: 400;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.1);
             opacity: 0;
-            transform: translateX(-20px);
-            animation: slideInRight 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            animation: fadeInText 1s ease forwards 0.6s;
         }
 
-        .step-item:nth-child(1) { animation-delay: 0.4s; }
-        .step-item:nth-child(2) { animation-delay: 0.5s; }
-        .step-item:nth-child(3) { animation-delay: 0.6s; }
-
-        @keyframes slideInRight {
-            to { opacity: 1; transform: translateX(0); }
+        @keyframes fadeInText {
+            to { opacity: 0.9; }
         }
 
-        .step-item:hover {
-            border-color: #22c55e;
-            background: #f0fdf4;
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(22, 163, 74, 0.05);
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 25px;
+            width: 100%;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.15);
+            transition: transform 0.2s ease, background 0.3s ease;
+        }
+
+        .glass-card:active {
+            transform: scale(0.98);
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .step {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .step:last-child {
+            margin-bottom: 0;
         }
 
         .step-num {
-            background: #dcfce7;
-            color: #15803d;
-            font-weight: 800;
-            font-size: 16px;
-            width: 28px;
-            height: 28px;
+            background: var(--text-color);
+            color: var(--deep-green);
+            width: 24px;
+            height: 24px;
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
-            margin-right: 15px;
+            font-weight: 800;
+            font-size: 14px;
             flex-shrink: 0;
         }
 
         .step-text {
             font-size: 15px;
-            color: #4b5563;
             line-height: 1.4;
+            opacity: 0.95;
         }
-        .step-text b { color: #111827; }
 
-        /* --- КНОПКА --- */
-        .action-btn {
-            background: linear-gradient(135deg, #16a34a, #15803d);
-            color: white;
+        .cta-button {
+            background: var(--text-color);
+            color: var(--deep-green);
             border: none;
+            border-radius: 20px;
             padding: 20px;
             font-size: 18px;
-            font-weight: 700;
-            border-radius: 14px;
+            font-weight: 800;
             width: 100%;
             cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 0 25px rgba(255, 255, 255, 0.4), 0 10px 20px rgba(0, 0, 0, 0.1);
             transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
             position: relative;
             overflow: hidden;
@@ -162,44 +174,76 @@
             justify-content: center;
             align-items: center;
             gap: 10px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            box-shadow: 0 10px 25px rgba(22, 163, 74, 0.3);
         }
 
-        .action-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 35px rgba(22, 163, 74, 0.4);
+        .cta-button:active {
+            transform: scale(0.95);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.6), inset 0 5px 10px rgba(0, 0, 0, 0.1);
         }
 
-        .action-btn:active { transform: translateY(1px); }
-        .action-btn:disabled { background: #9ca3af; color: #fff; cursor: not-allowed; transform: none; box-shadow: none; }
+        .cta-button:disabled {
+            background: #cbd5e1;
+            color: #64748b;
+            box-shadow: none;
+            transform: none;
+        }
 
         .spinner {
             display: none;
             width: 20px;
             height: 20px;
-            border: 3px solid rgba(255,255,255,0.3);
+            border: 3px solid rgba(6, 78, 59, 0.3);
             border-radius: 50%;
-            border-top-color: #fff;
+            border-top-color: var(--deep-green);
             animation: spin 1s ease-in-out infinite;
         }
 
-        @keyframes spin { to { transform: rotate(360deg); } }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
 
-        /* --- ТОСТ --- */
+        footer {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            padding: 20px;
+            opacity: 0;
+            animation: fadeInText 1s ease forwards 1s;
+        }
+
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            transition: background 0.2s, transform 0.2s;
+        }
+
+        .social-icon:active {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(0.9);
+        }
+
         .toast {
             position: fixed;
             top: -100px;
             left: 50%;
             transform: translateX(-50%);
-            background: #16a34a;
-            color: white;
+            background: #ffffff;
+            color: var(--deep-green);
             padding: 15px 30px;
             border-radius: 30px;
-            font-weight: 600;
+            font-weight: 700;
             font-size: 16px;
-            box-shadow: 0 10px 30px rgba(22, 163, 74, 0.4);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
             transition: top 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
             z-index: 1000;
             display: flex;
@@ -207,165 +251,178 @@
             gap: 10px;
         }
 
-        .toast.show { top: 30px; }
-
-        /* Декор фона (зеленые пятна) */
-        .bg-blob {
-            position: fixed;
-            width: 500px;
-            height: 500px;
-            background: #22c55e;
-            border-radius: 50%;
-            filter: blur(150px);
-            opacity: 0.15;
-            z-index: 1;
-            pointer-events: none;
-        }
-        .blob-1 { top: -150px; left: -150px; animation: float 10s ease-in-out infinite; }
-        .blob-2 { bottom: -150px; right: -150px; animation: float 12s ease-in-out infinite reverse; }
-
-        @keyframes float {
-            0% { transform: translate(0, 0); }
-            50% { transform: translate(30px, 30px); }
-            100% { transform: translate(0, 0); }
+        .toast.show {
+            top: 30px;
         }
     </style>
 </head>
 <body>
 
-    <div class="bg-blob blob-1"></div>
-    <div class="bg-blob blob-2"></div>
-
     <div id="toast" class="toast">
-        <span>✔</span> Текст отзыва скопирован!
+        <span>✔</span> Текст скопирован!
     </div>
 
-    <div class="main-wrapper">
-        <!-- Логотип -->
-        <div class="logo-container">
-            <img src="logo.png" alt="SkinMedical">
-        </div>
-
-        <div class="card">
+    <main>
+        <header class="fade-in show">
             <h1>Оцените нашу работу</h1>
-            <p class="subtitle">Нам важно ваше мнение. Это займет не более 30 секунд.</p>
+            <p class="subtitle">Это займет не более 30 секунд</p>
+        </header>
 
-            <div class="steps">
-                <div class="step-item">
-                    <div class="step-num">1</div>
-                    <div class="step-text">Нажмите кнопку <b>«Скопировать и перейти»</b> ниже.</div>
-                </div>
-                <div class="step-item">
-                    <div class="step-num">2</div>
-                    <div class="step-text">Откроется приложение <b>2ГИС</b> на карточке клиники.</div>
-                </div>
-                <div class="step-item">
-                    <div class="step-num">3</div>
-                    <div class="step-text">Нажмите <b>«Написать отзыв»</b>, выберите оценку и нажмите <b>«Вставить»</b> в поле ввода.</div>
-                </div>
+        <div class="glass-card fade-in">
+            <div class="card-title">
+                <span>📋</span> Как оставить отзыв
             </div>
-
-            <button id="actionBtn" class="action-btn" onclick="copyAndGo()">
-                <div id="btnSpinner" class="spinner"></div>
-                <span id="btnText">Скопировать и перейти</span>
-                <span id="btnArrow">➔</span>
-            </button>
+            <div class="step">
+                <div class="step-num">1</div>
+                <div class="step-text">Нажмите кнопку ниже. Текст скопируется автоматически.</div>
+            </div>
+            <div class="step">
+                <div class="step-num">2</div>
+                <div class="step-text">Откроется 2ГИС на карточке клиники.</div>
+            </div>
+            <div class="step">
+                <div class="step-num">3</div>
+                <div class="step-text">Нажмите «Написать отзыв», выберите оценку и нажмите «Вставить».</div>
+            </div>
         </div>
-    </div>
+
+        <button id="actionBtn" class="cta-button fade-in" onclick="copyAndGo()">
+            <div id="btnSpinner" class="spinner"></div>
+            <span id="btnText">Скопировать и перейти</span>
+        </button>
+    </main>
+
+    <footer class="fade-in">
+        <a href="#" class="social-icon">✈️</a>
+        <a href="#" class="social-icon">💬</a>
+        <a href="#" class="social-icon">📍</a>
+    </footer>
 
     <script>
-        // --- БАЗА ДАННЫХ ---
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('show');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.fade-in:not(header)').forEach((el) => {
+            observer.observe(el);
+        });
+
+        // --- БАЗА ОТЗЫВОВ (БЕЗ ЗНАКОВ ПРЕПИНАНИЯ В КОНЦЕ) ---
+        
         const openings = [
-            "Хочу оставить отзыв о клинике.", "Делюсь впечатлениями о посещении.", "Решил написать отзыв, так как остался доволен.", "Был на приеме недавно, хочу поделиться.", "Обратился в эту клинику по совету друзей.",
-            "Посетил клинику, остались только положительные эмоции.", "Давно искал хорошее место, и вот нашел.", "Записался на процедуру, очень переживал.", "Была на консультации, хочу отметить профессионализм.", "Очень рад, что попал именно сюда.",
-            "Хочу поблагодарить персонал за работу.", "Посещение оставило приятный осадок.", "Решил попробовать и не пожалел.", "Пришел по записи, всё прошло гладко.", "Хочу поделиться своим опытом.",
-            "Обратился с проблемой, которую долго не мог решить.", "Пришел на консультацию, остался доволен.", "Посетил клинику по рекомендации.", "Решил проверить качество услуг.", "Очень доволен, что обратился именно сюда.",
-            "Хочу рассказать о своем визите.", "Посещение было очень комфортным.", "Записался заранее, приняли вовремя.", "Обратился впервые, впечатления отличные.", "Был проездом, решил зайти.",
-            "Давно выбирал клинику и остановился на этой.", "Пришел по совету коллеги.", "Решил попробовать новые процедуры.", "Посетил клинику с профилактической целью.", "Очень понравился подход к клиентам.",
-            "Хочу отметить высокий уровень сервиса.", "Посещение прошло в спокойной обстановке.", "Обратился за помощью к специалистам.", "Пришел на плановый осмотр.", "Решил оставить свой след в истории клиники.",
-            "Был здесь на прошлой неделе.", "Посетил клинику вместе с семьей.", "Обратился с острой болью, помогли быстро.", "Пришел на консультацию по совету врача.", "Решил довериться профессионалам.",
-            "Очень рад, что нашел это место.", "Хочу выразить благодарность.", "Посещение было очень продуктивным.", "Обратился за консультацией.", "Пришел на процедуру, всё прошло хорошо.",
-            "Решил написать честный отзыв.", "Был на приеме, хочу отметить.", "Посетил клинику, чтобы проверить кожу.", "Обратился с вопросом, получил ответ.", "Пришел по записи, всё четко."
+            "Запись на чистку прошла быстро", "Пилинг лица сделали хорошо", "Консультация дерматолога прошла отлично", "Лазерное удаление прошло спокойно", "Прием у трихолога был полезным",
+            "Биоревитализацию сделали аккуратно", "Иглоукалывание помогло", "Плазмотерапия для волос прошла комфортно", "Пилинг спины сделали качественно", "Удаление бородавки прошло гладко",
+            "Уколы красоты дали результат", "Прием у хирурга прошел четко", "Фотоомоложение понравилось", "Осмотр у дерматолога прошел хорошо", "Сдача анализов прошла быстро",
+            "Карбокситерапия понравилась", "Чистка лица прошла супер", "Консультация по пигментации была информативной", "Мезотерапия для волос дала эффект", "Процедура для сужения пор прошла отлично",
+            "Прием у невролога прошел внимательно", "Удаление родинки прошло без проблем", "Пилинг для выравнивания тона сделали хорошо", "Лазерная шлифовка прошла нормально", "Консультация косметолога помогла",
+            "Удаление папилломы прошло быстро", "Биоревитализация для глаз прошла отлично", "Иглоукалывание для спины помогло", "Консультация трихолога прошла подробно", "Процедура для подтяжки лица понравилась",
+            "Уколы для увлажнения сделали аккуратно", "Прием у дерматолога все объяснил", "Чистка спины прошла хорошо", "Удаление кератомы прошло гладко", "Фотоомоложение для лица сделали качественно",
+            "Прием у хирурга был полезным", "Процедура для волос прошла комфортно", "Сдача крови прошла безболезненно", "Консультация по уходу за кожей прошла отлично", "Лазерное удаление на лице прошло спокойно",
+            "Иглоукалывание для шеи помогло", "Пилинг тела сделали отлично", "Прием у косметолога был четким", "Процедура для кожи вокруг глаз понравилась", "Удаление бородавки на стопе прошло хорошо",
+            "Консультация невролога прошла нормально", "Уколы для лица дали хороший эффект", "Чистка лица перед событием прошла отлично", "Плазмотерапия прошла комфортно", "Прием у трихолога все объяснил"
         ];
 
-        const procedures = [
-            "Записался на чистку лица.", "Делал пилинг лица.", "Приходил на лазерное удаление папиллом.", "Прошел консультацию у дерматолога.", "Был на приеме у трихолога.",
-            "Сделал биоревитализацию лица.", "Прошел курс иглоукалывания у невролога.", "Делал плазмотерапию для волос.", "Записался на пилинг спины.", "Удалял бородавку лазером.",
-            "Сделал инъекции гиалуроновой кислоты.", "Приходил на консультацию к хирургу.", "Делал фотоомоложение лица.", "Прошел осмотр у дерматолога с дерматоскопией.", "Сдавал анализы крови.",
-            "Делал карбокситерапию лица.", "Записался на чистку Holy Land.", "Приходил на консультацию по поводу пигментации.", "Прошел курс мезотерапии для волос.", "Сделал процедуру для сужения пор.",
-            "Удалял кератому лазером.", "Приходил на консультацию невролога.", "Делал пилинг PRX-T33.", "Сделал процедуру RF-лифтинга.", "Удалял папиллому на шее.",
-            "Прошел лечение акне на спине.", "Делал процедуру IPL для лица.", "Сделал уколы для увлажнения кожи.", "Прошел консультацию по куперозу.", "Делал лазерную шлифовку лица.",
-            "Записался на консультацию к косметологу.", "Сделал процедуру для укрепления волос.", "Прошел осмотр у хирурга.", "Делал чистку лица перед событием.", "Сделал биоревитализацию для глаз.",
-            "Прошел курс плазмотерапии.", "Делал пилинг для выравнивания тона.", "Записался на прием к дерматологу.", "Сделал процедуру для подтяжки овала.", "Прошел консультацию по уходу за кожей."
-        ];
-
-        const details = [
-            "Врач всё подробно объяснил, разложил по полочкам.", "На ресепшене встретили очень вежливо, предложили подождать.", "Сама процедура прошла комфортно, боли почти не было.", "Специалист учел все особенности кожи и дал советы.", "Обезболивание сработало отлично, дискомфорта не было.",
-            "В кабинете чисто, стерильно, всё аккуратно.", "Врач ответил на все вопросы, ничего не скрывал.", "Процедура заняла меньше времени, чем ожидалось.", "Сделали всё очень деликатно и профессионально.", "Перед началом подробно рассказали о препарате.",
-            "Ничего лишнего не навязывали, только то, что нужно.", "Внимательно выслушали все жалобы.", "Работал настоящий профессионал своего дела.", "Обстановка спокойная, не было спешки.", "Всё прошло в комфортной и дружелюбной атмосфере.",
-            "Врач использовал современное оборудование.", "Подобрали нужный уход с учетом типа кожи.", "Очень понравился индивидуальный подход.", "Перед процедурой провели полную диагностику.", "Всё объяснили и показали на экране.",
-            "Специалист нашел подход, успокоил.", "Процедура прошла быстро и безболезненно.", "Атмосфера в клинике очень расслабляющая.", "Врач дал много полезных советов на будущее.", "Чувствовалась забота о каждом клиенте.",
-            "Все инструменты стерильные, одноразовые.", "Никакой спешки, всё делали качественно.", "Врач очень внимательный и чуткий.", "Понравилось, что не пришлось долго ждать.", "Всё четко по записи, без задержек.",
-            "Процедура прошла с минимальным дискомфортом.", "Врач объяснил каждый шаг.", "В клинике очень уютно и светло.", "Персонал приветливый и отзывчивый.", "Сделали всё с первого раза и качественно.",
-            "Врач учел все пожелания.", "Процедура прошла на высшем уровне.", "Очень понравилось отношение к клиентам.", "Всё сделали аккуратно и быстро.", "Врач дал рекомендации по домашнему уходу."
+        const middles = [
+            "врач всё подробно объяснил без воды", "на ресепшене встретили вежливо", "было не больно и почти не чувствовалось", "косметолог учел все пожелания", "обезболивание сработало на ура",
+            "в кабинете чисто и стерильно", "ответили на все вопросы", "процедура заняла меньше времени", "сделали всё аккуратно", "рассказали про препарат",
+            "ничего лишнего не навязывали", "выслушали все жалобы", "работал профессионал", "не было спешки", "атмосфера комфортная",
+            "оборудование современное", "уход подобрали идеально", "подход индивидуальный", "провели диагностику", "показали на экране",
+            "все прошло спокойно", "врач очень внимательный", "персонал приветливый", "всё четко по записи", "объяснили каждый шаг",
+            "сделали всё быстро", "в клинике уютно", "чувствуется опыт", "все инструменты стерильные", "никакой суеты",
+            "всё прошло гладко", "врач все показал", "внимательное отношение", "понравился сервис", "процедура прошла легко",
+            "всё объяснили заранее", "персонал отзывчивый", "чистота и порядок", "сделали с первого раза", "врач учел нюансы",
+            "всё прошло без стресса", "анестезия подействовала сразу", "в клинике светло", "врач грамотный", "процедура прошла комфортно",
+            "все прошло без проблем", "внимательные администраторы", "приняли вовремя", "всё сделали качественно", "врач помог"
         ];
 
         const results = [
-            "Результат заметен уже через несколько дней.", "Кожа стала заметно чище и ровнее.", "Проблема, которая беспокоила годами, решилась.", "Волосы перестали выпадать, стали гуще.", "Пигментные пятна заметно побледнели.",
-            "Заживление прошло быстро, следов не осталось.", "Отеки спали, лицо выглядит отдохнувшим.", "Высыпания прошли, кожа стала гладкой.", "Самочувствие значительно улучшилось.", "Морщинки разгладились, кожа сияет.",
-            "Удалось избавиться от бородавки без шрамов.", "Результат превзошел все ожидания.", "Эффект сохраняется уже долгое время.", "Тон кожи выровнялся, выглядит здоровым.", "Поры сузились, кожа дышит.",
-            "Кожа стала более упругой и эластичной.", "Покраснения прошли, цвет лица ровный.", "Волосы стали крепче и гуще.", "Боль в спине прошла.", "Головные боли больше не беспокоят.",
-            "Сон нормализовался, чувствуется легкость.", "Потливость значительно снизилась.", "Кожа вокруг глаз стала более гладкой.", "Губы выглядят естественно и ухоженно.", "Овал лица стал более четким."
+            "кожа стала чище", "результат виден сразу", "проблема ушла", "волосы перестали лезть", "пятна побледнели",
+            "зажило быстро", "отеки спали", "высыпаний нет", "стало легче", "морщинки разгладились",
+            "бородавки нет", "результат супер", "эффект держится", "тон ровный", "поры сузились",
+            "кожа упругая", "покраснения прошли", "волосы гуще", "боль прошла", "головные боли прошли",
+            "кожа сияет", "результат радует", "кожа гладкая", "волосы крепче", "сон нормализовался",
+            "потливость снизилась", "цвет лица выровнялся", "кожа дышит", "воспаления прошли", "ноготь восстановился",
+            "кожа свежая", "всё зажило", "морщины стали меньше", "проблема решена", "эффект отличный",
+            "кожа лучше", "всё прошло", "результат есть", "волосы здоровее", "кожа мягкая",
+            "овал лица четче", "звездочки бледнее", "кожа ровнее", "волосы блестят", "боль ушла",
+            "всё супер", "результат хороший", "кожа чистая", "эффект превзошел ожидания", "стало намного лучше"
         ];
 
         const conclusions = [
-            "Обязательно вернусь сюда снова.", "Буду рекомендовать эту клинику всем знакомым.", "Спасибо большое за ваш труд и заботу.", "Очень рад, что нашел это место.", "Остался полностью доволен посещением.",
-            "Теперь буду ходить только сюда.", "Процветания вам и побольше клиентов!", "Спасибо за профессионализм и чуткость.", "Очень приятно, когда работают такие люди.", "Буду советовать вас друзьям и близким.",
-            "Отличное место, буду постоянным клиентом.", "Спасибо, что помогаете стать лучше!", "Впечатления исключительно положительные.", "Рекомендую от всей души.", "Спасибо за вашу работу."
+            "приду ещё", "советую всем", "спасибо большое", "впечатления отличные", "всё супер",
+            "буду ходить", "процветания вам", "спасибо за работу", "приятный сюрприз", "буду советовать",
+            "отличное место", "спасибо что помогаете", "впечатления только хорошие", "рекомендую", "спасибо за труд",
+            "обязательно вернусь", "спасибо за заботу", "отличный сервис", "приду снова", "рекомендую всем",
+            "очень хорошо", "все понравилось", "спасибо за внимание", "радостные эмоции", "супер",
+            "буду постоянным клиентом", "спасибо за помощь", "отличный подход", "приятные впечатления", "спасибо",
+            "отлично", "класс", "молодцы", "так держать", "спасибо за всё",
+            "очень приятно", "всё понравилось", "отличная работа", "спасибо за качество", "буду обращаться",
+            "вы лучшие", "спасибо за профессионализм", "рекомендую от души", "результат радует", "всё отлично",
+            "спасибо за чуткость", "приду ещё раз", "отличные специалисты", "все супер", "спасибо огромное"
         ];
 
         const targetUrl = "https://2gis.ru/surgut/firm/70000001075020592/tab/reviews";
 
-        function getRandom(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+        function getRandom(arr) {
+            return arr[Math.floor(Math.random() * arr.length)];
+        }
+
+        function capitalizeFirst(str) {
+            return str.charAt(0).toUpperCase() + str.slice(1);
+        }
 
         function copyAndGo() {
             const btn = document.getElementById('actionBtn');
             const spinner = document.getElementById('btnSpinner');
             const btnText = document.getElementById('btnText');
-            const btnArrow = document.getElementById('btnArrow');
 
             if (btn.disabled) return;
-            
+
             btn.disabled = true;
             spinner.style.display = "inline-block";
             btnText.innerText = "Формирую...";
-            btnArrow.style.display = "none";
 
-            // Собираем уникальный отзыв
-            const part1 = getRandom(openings);
-            const part2 = getRandom(procedures);
-            const part3 = getRandom(details);
-            const part4 = getRandom(results);
-            const part5 = getRandom(conclusions);
+            let p1 = getRandom(openings);
+            let p2 = getRandom(middles);
+            let p3 = getRandom(results);
+            let p4 = getRandom(conclusions);
 
-            let fullReview = `${part1} ${part2} ${part3} ${part4} ${part5}`;
+            // Случайно выбираем знак препинания (точка или запятая)
+            let punct1 = Math.random() > 0.4 ? ". " : ", ";
+            let punct2 = Math.random() > 0.4 ? ". " : ", ";
+            let punct3 = Math.random() > 0.4 ? ". " : ", ";
+
+            // Если ставим точку, следующее слово делаем с большой буквы
+            if (punct1 === ". ") p2 = capitalizeFirst(p2);
+            if (punct2 === ". ") p3 = capitalizeFirst(p3);
+            if (punct3 === ". ") p4 = capitalizeFirst(p4);
+
+            // В самом конце всегда ставим точку
+            let fullReview = p1 + punct1 + p2 + punct2 + p3 + punct3 + p4 + ".";
 
             navigator.clipboard.writeText(fullReview).then(() => {
                 showToast();
-                setTimeout(() => { window.location.href = targetUrl; }, 1500);
+                setTimeout(() => {
+                    window.location.href = targetUrl;
+                }, 1500);
             }).catch(err => {
                 alert("Скопируйте текст вручную:\n\n" + fullReview);
                 btn.disabled = false;
                 spinner.style.display = "none";
                 btnText.innerText = "Скопировать и перейти";
-                btnArrow.style.display = "inline";
             });
         }
 
         function showToast() {
             const toast = document.getElementById("toast");
             toast.classList.add("show");
-            setTimeout(() => { toast.classList.remove("show"); }, 3000);
+            setTimeout(() => {
+                toast.classList.remove("show");
+            }, 3000);
         }
     </script>
 </body>
